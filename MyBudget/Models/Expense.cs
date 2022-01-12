@@ -7,7 +7,7 @@ namespace MyBudget.Models
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public ExpenseType ExpenseType { get; set; }
-        public int Sum { get; set; }
+        public float Sum { get; set; }
         public string Comment { get; set; }
     }
 }
