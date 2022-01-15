@@ -18,7 +18,7 @@ namespace MyBudget.Mocks
 
         public ExpenseType GetById(int id)
         {
-            return new ExpenseType() { Id = id, Name = "Food", Comment = "Bread, Butter etc." };
+            return new ExpenseType() { Id = 0, Name = "Food", Comment = "Bread, Butter etc." };
         }
     }
 }

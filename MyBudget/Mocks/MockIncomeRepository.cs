@@ -14,7 +14,7 @@ namespace MyBudget.Mocks
                 new Income()
                 {
                     Id = 0,
-                    Date = DateTime.Today,
+                    Date = new DateTime(2021, 10, 15),
                     IncomeType = new IncomeType() { Id = 0, Name = "Salary", Comment = "Main income" },
                     Sum = 10,
                     Comment = "Salary"
@@ -22,7 +22,7 @@ namespace MyBudget.Mocks
                     new Income()
                 {
                     Id = 1,
-                    Date = DateTime.Today,
+                    Date = new DateTime(2021, 11, 15),
                     IncomeType = new IncomeType() { Id = 1, Name = "Part-time job", Comment = "Additional money" },
                     Sum = 20,
                     Comment = "Part-time job"
@@ -30,7 +30,7 @@ namespace MyBudget.Mocks
                     new Income()
                 {
                     Id = 2,
-                    Date = DateTime.Today,
+                    Date = new DateTime(2021, 12, 15),
                     IncomeType = new IncomeType() { Id = 2, Name = "Royalty", Comment = "Excellent money" },
                     Sum = 30,
                     Comment = "Royalty"
@@ -44,7 +44,7 @@ namespace MyBudget.Mocks
             {
                 Id = id,
                 Date = DateTime.Today,
-                IncomeType = new IncomeType() { Id = id, Name = "Salary", Comment = "Main income" },
+                IncomeType = new IncomeType() { Id = 0, Name = "Salary", Comment = "Main income" },
                 Sum = 10,
                 Comment = "Salary"
             };

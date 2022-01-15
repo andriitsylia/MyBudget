@@ -18,7 +18,7 @@ namespace MyBudget.Mocks
 
         public IncomeType GetById(int id)
         {
-            return new IncomeType() { Id = id, Name = "Salary", Comment = "Main income" };
+            return new IncomeType() { Id = 0, Name = "Salary", Comment = "Main income" };
         }
     }
 }
