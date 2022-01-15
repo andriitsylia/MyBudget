@@ -2,6 +2,7 @@
 using MyBudget.Mocks;
 using System.Collections.Generic;
 using MyBudget.Models;
+using MyBudget.Interfaces;
 
 namespace MyBudget.Controllers
 {
@@ -9,7 +10,12 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class IncomeController : ControllerBase
     {
-        private readonly MockIncomeRepository _repository = new();
+        private readonly IIncomeRepository _repository;
+
+        public IncomeController(IIncomeRepository repository)
+        {
+            _repository = repository;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<Income>> GetAll()

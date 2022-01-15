@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using MyBudget.Models;
+using MyBudget.Interfaces;
 
 namespace MyBudget.Controllers
 {
@@ -9,7 +10,12 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class ExpenseController : ControllerBase
     {
-        private readonly MockExpenseRepository _repository = new();
+        private readonly IExpenseRepository _repository;
+
+        public ExpenseController(IExpenseRepository repository)
+        {
+            _repository = repository;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<Expense>> GetAll()

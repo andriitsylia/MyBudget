@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MyBudget.Interfaces;
+using MyBudget.Mocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,6 @@ namespace MyBudget
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -32,9 +33,13 @@ namespace MyBudget
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBudget", Version = "v1" });
             });
+
+            services.AddScoped<IIncomeTypeRepository, MockIncomeTypeRepository>();
+            services.AddScoped<IIncomeRepository, MockIncomeRepository>();
+            services.AddScoped<IExpenseTypeRepository, MockExpenseTypeRepository>();
+            services.AddScoped<IExpenseRepository, MockExpenseRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
