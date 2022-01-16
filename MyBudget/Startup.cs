@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using MyBudget.EF;
 using MyBudget.Interfaces;
 using MyBudget.Mocks;
+using MyBudget.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +34,10 @@ namespace MyBudget
             services.AddControllers();
             services.AddSwaggerGen(c =>c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBudget", Version = "v1" }));
 
-            services.AddScoped<IIncomeTypeRepository, MockIncomeTypeRepository>();
-            services.AddScoped<IIncomeRepository, MockIncomeRepository>();
-            services.AddScoped<IExpenseTypeRepository, MockExpenseTypeRepository>();
-            services.AddScoped<IExpenseRepository, MockExpenseRepository>();
+            services.AddScoped<IIncomeTypeRepository, IncomeTypeRepository>();
+            services.AddScoped<IIncomeRepository, IncomeRepository>();
+            services.AddScoped<IExpenseTypeRepository, ExpenseTypeRepository>();
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
