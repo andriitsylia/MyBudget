@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MyBudget.EF;
 using MyBudget.Interfaces;
 using MyBudget.Mocks;
 using System;
@@ -27,12 +29,9 @@ namespace MyBudget
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<MyBudgetContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("MyBudgetConnection")));
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBudget", Version = "v1" });
-            });
+            services.AddSwaggerGen(c =>c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBudget", Version = "v1" }));
 
             services.AddScoped<IIncomeTypeRepository, MockIncomeTypeRepository>();
             services.AddScoped<IIncomeRepository, MockIncomeRepository>();
