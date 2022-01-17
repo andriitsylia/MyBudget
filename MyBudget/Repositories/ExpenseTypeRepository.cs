@@ -2,6 +2,7 @@
 using MyBudget.Interfaces;
 using MyBudget.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyBudget.Repositories
 {
@@ -16,12 +17,12 @@ namespace MyBudget.Repositories
 
         public IEnumerable<ExpenseType> GetAll()
         {
-            return _context.ExpenseTypes;
+            return _context.ExpenseTypes.ToList();
         }
 
         public ExpenseType GetById(int id)
         {
-            return _context.ExpenseTypes.Find(id);
+            return _context.ExpenseTypes.FirstOrDefault(e => e.Id == id);
         }
     }
 }

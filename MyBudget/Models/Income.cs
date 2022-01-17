@@ -13,12 +13,16 @@ namespace MyBudget.Models
         public DateTime Date { get; set; }
 
         [Required]
-        public IncomeType IncomeType { get; set; }
-
-        [Required]
         public float Sum { get; set; }
 
         [MaxLength(50)]
         public string Comment { get; set; }
+
+        [Required]
+        public int IncomeTypeId { get; set; }
+
+        public IncomeType IncomeType { get; set; }
+
+
     }
 }

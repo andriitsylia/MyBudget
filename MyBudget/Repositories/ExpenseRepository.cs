@@ -1,7 +1,9 @@
-﻿using MyBudget.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MyBudget.EF;
 using MyBudget.Interfaces;
 using MyBudget.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyBudget.Repositories
 {
@@ -16,12 +18,12 @@ namespace MyBudget.Repositories
 
         public IEnumerable<Expense> GetAll()
         {
-            return _context.Expenses;
+            return _context.Expenses.Include(et => et.ExpenseType).ToList();
         }
 
         public Expense GetById(int id)
         {
-            return _context.Expenses.Find(id);
+            return _context.Expenses.Include(et => et.ExpenseType).FirstOrDefault(e => e.Id == id);
         }
     }
 }
