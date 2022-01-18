@@ -3,6 +3,8 @@ using MyBudget.Mocks;
 using System.Collections.Generic;
 using MyBudget.Models;
 using MyBudget.Interfaces;
+using AutoMapper;
+using MyBudget.Dtos;
 
 namespace MyBudget.Controllers
 {
@@ -11,22 +13,40 @@ namespace MyBudget.Controllers
     public class IncomeController : ControllerBase
     {
         private readonly IIncomeRepository _repository;
+        private readonly IMapper _mapper;
 
-        public IncomeController(IIncomeRepository repository)
+        public IncomeController(IIncomeRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Income>> GetAll()
+        public ActionResult<IEnumerable<IncomeReadDto>> GetAll()
         {
-            return Ok(_repository.GetAll());
+            var incomeItems = _repository.GetAll();
+            if (incomeItems != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<IncomeReadDto>>(incomeItems));
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Income> GetById(int id)
+        public ActionResult<IncomeReadDto> GetById(int id)
         {
-            return Ok(_repository.GetById(id));
+            var incomeItem = _repository.GetById(id);
+            if (incomeItem != null)
+            {
+                return Ok(_mapper.Map<IncomeReadDto>(incomeItem));
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

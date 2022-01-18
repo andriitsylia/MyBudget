@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyBudget.Mocks;
 using MyBudget.Models;
 using MyBudget.Interfaces;
+using AutoMapper;
+using MyBudget.Dtos;
 
 namespace MyBudget.Controllers
 {
@@ -11,22 +13,40 @@ namespace MyBudget.Controllers
     public class ExpenseTypeController : ControllerBase
     {
         private readonly IExpenseTypeRepository _repository;
+        private readonly IMapper _mapper;
 
-        public ExpenseTypeController(IExpenseTypeRepository repository)
+        public ExpenseTypeController(IExpenseTypeRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ExpenseType>> GetAll()
+        public ActionResult<IEnumerable<ExpenseTypeReadDto>> GetAll()
         {
-            return Ok(_repository.GetAll());
+            var expenseTypeItems = _repository.GetAll();
+            if (expenseTypeItems != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<ExpenseTypeReadDto>>(expenseTypeItems));
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ExpenseType> GetById(int id)
+        public ActionResult<ExpenseTypeReadDto> GetById(int id)
         {
-            return Ok(_repository.GetById(id));
+            var expenseTypeItem = _repository.GetById(id);
+            if (expenseTypeItem != null)
+            {
+                return Ok(_mapper.Map<ExpenseTypeReadDto>(expenseTypeItem));
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
     }
