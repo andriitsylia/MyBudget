@@ -35,8 +35,8 @@ namespace MyBudget.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<IncomeReadDto> GetById(int id)
+        [HttpGet("{id}", Name = "IncomeGetById")]
+        public ActionResult<IncomeReadDto> IncomeGetById(int id)
         {
             var incomeItem = _repository.GetById(id);
             if (incomeItem != null)
@@ -53,10 +53,13 @@ namespace MyBudget.Controllers
         public ActionResult<IncomeReadDto> Create(IncomeCreateDto incomeCreateDto)
         {
             var income = _mapper.Map<Income>(incomeCreateDto);
+            
             _repository.Create(income);
             _repository.SaveChanges();
 
-            return Ok(income);
+            var incomeReadDto = _mapper.Map<IncomeReadDto>(income);
+
+            return CreatedAtRoute(nameof(IncomeGetById), new { id = incomeReadDto.Id}, incomeReadDto);
         }
     }
 }

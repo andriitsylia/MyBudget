@@ -35,8 +35,8 @@ namespace MyBudget.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<ExpenseTypeReadDto> GetById(int id)
+        [HttpGet("{id}", Name ="ExpenseTypeGetById")]
+        public ActionResult<ExpenseTypeReadDto> ExpenseTypeGetById(int id)
         {
             var expenseTypeItem = _repository.GetById(id);
             if (expenseTypeItem != null)
@@ -56,7 +56,9 @@ namespace MyBudget.Controllers
             _repository.Create(expenseType);
             _repository.SaveChanges();
 
-            return Ok(expenseType);
+            var expenseTypeReadDto = _mapper.Map<ExpenseTypeReadDto>(expenseType);
+
+            return CreatedAtRoute(nameof(ExpenseTypeGetById), new { id = expenseTypeReadDto.Id}, expenseTypeReadDto);
         }
 
     }
