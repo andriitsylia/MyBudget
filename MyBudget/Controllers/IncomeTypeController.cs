@@ -48,5 +48,16 @@ namespace MyBudget.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPost]
+        public ActionResult<IncomeTypeReadDto> Create(IncomeTypeCreateDto incomeTypeCreateDto)
+        {
+            var incomeType = _mapper.Map<IncomeType>(incomeTypeCreateDto);
+            
+            _repository.Create(incomeType);
+            _repository.SaveChanges();
+
+            return Ok(incomeType);
+        }
     }
 }

@@ -48,5 +48,15 @@ namespace MyBudget.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPost]
+        public ActionResult<ExpenseReadDto> Create(ExpenseCreateDto expenseCreateDto)
+        {
+            var expense = _mapper.Map<Expense>(expenseCreateDto);
+            _repository.Create(expense);
+            _repository.SaveChanges();
+
+            return Ok(expense);
+        }
     }
 }
