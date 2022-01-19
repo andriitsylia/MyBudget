@@ -3,6 +3,7 @@ using MyBudget.Interfaces;
 using MyBudget.EF;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace MyBudget.Repositories
 {
@@ -15,6 +16,16 @@ namespace MyBudget.Repositories
             _context = context;
         }
 
+        public void Create(IncomeType incomeType)
+        {
+            if (incomeType == null)
+            {
+                throw new ArgumentNullException(nameof(incomeType));
+            }
+
+            _context.IncomeTypes.Add(incomeType);
+        }
+
         public IEnumerable<IncomeType> GetAll()
         {
             return _context.IncomeTypes.ToList();
@@ -23,6 +34,11 @@ namespace MyBudget.Repositories
         public IncomeType GetById(int id)
         {
             return _context.IncomeTypes.FirstOrDefault(i => i.Id == id);
+        }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
         }
     }
 }

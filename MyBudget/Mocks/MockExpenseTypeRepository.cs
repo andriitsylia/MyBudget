@@ -6,6 +6,11 @@ namespace MyBudget.Mocks
 {
     public class MockExpenseTypeRepository : IExpenseTypeRepository
     {
+        public void Create(ExpenseType expenseType)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<ExpenseType> GetAll()
         {
             return new List<ExpenseType>()
@@ -19,6 +24,11 @@ namespace MyBudget.Mocks
         public ExpenseType GetById(int id)
         {
             return new ExpenseType() { Id = 0, Name = "Food", Comment = "Bread, Butter etc." };
+        }
+
+        public bool SaveChanges()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

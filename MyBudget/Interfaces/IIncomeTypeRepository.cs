@@ -5,8 +5,10 @@ namespace MyBudget.Interfaces
 {
     public interface IIncomeTypeRepository
     {
+        bool SaveChanges();
         IEnumerable<IncomeType> GetAll();
         IncomeType GetById(int id);
+        void Create(IncomeType incomeType);
 
     }
 }

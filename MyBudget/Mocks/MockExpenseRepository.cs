@@ -7,6 +7,11 @@ namespace MyBudget.Mocks
 {
     public class MockExpenseRepository : IExpenseRepository
     {
+        public void Create(Expense expense)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Expense> GetAll()
         {
             return new List<Expense>()
@@ -48,6 +53,11 @@ namespace MyBudget.Mocks
                 Sum = 100,
                 Comment = "Food"
             };
+        }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }

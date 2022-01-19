@@ -7,6 +7,11 @@ namespace MyBudget.Mocks
 {
     public class MockIncomeRepository : IIncomeRepository
     {
+        public void Create(Income income)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Income> GetAll()
         {
             return new List<Income>()
@@ -48,6 +53,11 @@ namespace MyBudget.Mocks
                 Sum = 10,
                 Comment = "Salary"
             };
+        }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }
