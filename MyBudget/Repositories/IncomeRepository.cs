@@ -28,6 +28,16 @@ namespace MyBudget.Repositories
             _context.Incomes.Add(income);
         }
 
+        public void Delete(Income income)
+        {
+            if (income == null)
+            {
+                throw new ArgumentNullException(nameof(income));
+            }
+            
+            _context.Incomes.Remove(income);
+        }
+
         public IEnumerable<Income> GetAll()
         {
             return _context.Incomes.Include(it => it.IncomeType).ToList();

@@ -12,6 +12,11 @@ namespace MyBudget.Mocks
             throw new NotImplementedException();
         }
 
+        public void Delete(Income income)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Income> GetAll()
         {
             return new List<Income>()

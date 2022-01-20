@@ -10,5 +10,6 @@ namespace MyBudget.Interfaces
         Expense GetById(int id);
         void Create(Expense expense);
         void Update(Expense expense);
+        void Delete(Expense expense);
     }
 }

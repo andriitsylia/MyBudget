@@ -10,6 +10,7 @@ namespace MyBudget.Interfaces
         IncomeType GetById(int id);
         void Create(IncomeType incomeType);
         void Update(IncomeType incomeType);
+        void Delete(IncomeType incomeType);
 
     }
 }

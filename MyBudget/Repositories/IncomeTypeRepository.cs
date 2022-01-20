@@ -45,5 +45,16 @@ namespace MyBudget.Repositories
         {
             _context.IncomeTypes.Update(incomeType);
         }
+
+        public void Delete(IncomeType incomeType)
+        {
+            if (incomeType == null)
+            {
+                throw new ArgumentNullException(nameof(incomeType));
+            }
+
+            _context.IncomeTypes.Remove(incomeType);
+        }
+
     }
 }

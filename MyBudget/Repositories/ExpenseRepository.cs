@@ -27,6 +27,16 @@ namespace MyBudget.Repositories
             _context.Expenses.Add(expense);
         }
 
+        public void Delete(Expense expense)
+        {
+            if (expense == null)
+            {
+                throw new ArgumentNullException(nameof(expense));
+            }
+
+            _context.Expenses.Remove(expense);
+        }
+
         public IEnumerable<Expense> GetAll()
         {
             return _context.Expenses.Include(et => et.ExpenseType).ToList();

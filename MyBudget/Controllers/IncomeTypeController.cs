@@ -80,5 +80,19 @@ namespace MyBudget.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var incomeTypeItem = _repository.GetById(id);
+            if (incomeTypeItem == null)
+            {
+                return NotFound();
+            }
+            _repository.Delete(incomeTypeItem);
+            _repository.SaveChanges();
+
+            return Ok();
+        }
     }
 }

@@ -73,9 +73,24 @@ namespace MyBudget.Controllers
             {
                 return NotFound();
             }
-
             _mapper.Map(incomeUpdateDto, incomeItem);
             _repository.Update(incomeItem);
+            _repository.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var incomeItem = _repository.GetById(id);
+            
+            if (incomeItem == null)
+            {
+                return NotFound();
+            }
+
+            _repository.Delete(incomeItem);
             _repository.SaveChanges();
 
             return Ok();

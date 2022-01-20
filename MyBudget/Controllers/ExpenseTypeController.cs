@@ -80,5 +80,20 @@ namespace MyBudget.Controllers
             return Ok();
         }
 
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var expenseTypeItem = _repository.GetById(id);
+            if (expenseTypeItem == null)
+            {
+                return NotFound();
+            }
+
+            _repository.Delete(expenseTypeItem);
+            _repository.SaveChanges();
+
+            return Ok();
+        }
+
     }
 }

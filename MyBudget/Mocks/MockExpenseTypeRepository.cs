@@ -11,6 +11,11 @@ namespace MyBudget.Mocks
             throw new System.NotImplementedException();
         }
 
+        public void Delete(ExpenseType expenseType)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<ExpenseType> GetAll()
         {
             return new List<ExpenseType>()
