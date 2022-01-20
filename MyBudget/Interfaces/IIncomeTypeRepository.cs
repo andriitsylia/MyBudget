@@ -9,6 +9,7 @@ namespace MyBudget.Interfaces
         IEnumerable<IncomeType> GetAll();
         IncomeType GetById(int id);
         void Create(IncomeType incomeType);
+        void Update(IncomeType incomeType);
 
     }
 }

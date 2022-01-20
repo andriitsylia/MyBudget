@@ -30,5 +30,10 @@ namespace MyBudget.Mocks
         {
             throw new System.NotImplementedException();
         }
+
+        public void Update(ExpenseType expenseType)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

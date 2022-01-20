@@ -9,5 +9,6 @@ namespace MyBudget.Interfaces
         IEnumerable<ExpenseType> GetAll();
         ExpenseType GetById(int id);
         void Create(ExpenseType expenseType);
+        void Update(ExpenseType expenseType);
     }
 }

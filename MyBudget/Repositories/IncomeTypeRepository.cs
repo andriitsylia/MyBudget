@@ -40,5 +40,10 @@ namespace MyBudget.Repositories
         {
             return _context.SaveChanges() >= 0;
         }
+
+        public void Update(IncomeType incomeType)
+        {
+            _context.IncomeTypes.Update(incomeType);
+        }
     }
 }

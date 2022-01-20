@@ -59,5 +59,10 @@ namespace MyBudget.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public void Update(Income income)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

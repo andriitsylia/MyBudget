@@ -25,6 +25,7 @@ namespace MyBudget.Controllers
         public ActionResult<IEnumerable<IncomeReadDto>> GetAll()
         {
             var incomeItems = _repository.GetAll();
+            
             if (incomeItems != null)
             {
                 return Ok(_mapper.Map<IEnumerable<IncomeReadDto>>(incomeItems));
@@ -39,6 +40,7 @@ namespace MyBudget.Controllers
         public ActionResult<IncomeReadDto> IncomeGetById(int id)
         {
             var incomeItem = _repository.GetById(id);
+            
             if (incomeItem != null)
             {
                 return Ok(_mapper.Map<IncomeReadDto>(incomeItem));
@@ -52,14 +54,31 @@ namespace MyBudget.Controllers
         [HttpPost]
         public ActionResult<IncomeReadDto> Create(IncomeCreateDto incomeCreateDto)
         {
-            var income = _mapper.Map<Income>(incomeCreateDto);
+            var incomeItem = _mapper.Map<Income>(incomeCreateDto);
             
-            _repository.Create(income);
+            _repository.Create(incomeItem);
             _repository.SaveChanges();
 
-            var incomeReadDto = _mapper.Map<IncomeReadDto>(income);
+            var incomeReadDto = _mapper.Map<IncomeReadDto>(incomeItem);
 
             return CreatedAtRoute(nameof(IncomeGetById), new { id = incomeReadDto.Id}, incomeReadDto);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update(int id, IncomeUpdateDto incomeUpdateDto)
+        {
+            var incomeItem = _repository.GetById(id);
+            
+            if (incomeItem == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(incomeUpdateDto, incomeItem);
+            _repository.Update(incomeItem);
+            _repository.SaveChanges();
+
+            return Ok();
         }
     }
 }

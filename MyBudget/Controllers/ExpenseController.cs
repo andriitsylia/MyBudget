@@ -25,6 +25,7 @@ namespace MyBudget.Controllers
         public ActionResult<IEnumerable<ExpenseReadDto>> GetAll()
         {
             var expenseItems= _repository.GetAll();
+            
             if (expenseItems != null)
             {
                 return Ok(_mapper.Map<IEnumerable<ExpenseReadDto>>(expenseItems));
@@ -39,6 +40,7 @@ namespace MyBudget.Controllers
         public ActionResult<ExpenseReadDto> ExpenseGetById(int id)
         {
             var expenseItem = _repository.GetById(id);
+            
             if (expenseItem != null)
             {
                 return Ok(_mapper.Map<ExpenseReadDto>(expenseItem));
@@ -59,6 +61,23 @@ namespace MyBudget.Controllers
             var expenseReadDto = _mapper.Map<ExpenseReadDto>(expense);
 
             return CreatedAtRoute(nameof(ExpenseGetById), new { id = expenseReadDto.Id}, expenseReadDto);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update(int id, ExpenseUpdateDto expenseUpdateDto)
+        {
+            var expenseItem = _repository.GetById(id);
+            
+            if (expenseItem == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(expenseUpdateDto, expenseItem);
+            _repository.Update(expenseItem);
+            _repository.SaveChanges();
+
+            return Ok();
         }
     }
 }

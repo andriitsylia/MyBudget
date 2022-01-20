@@ -41,5 +41,10 @@ namespace MyBudget.Repositories
         {
             return _context.SaveChanges() >= 0;
         }
+
+        public void Update(Expense expense)
+        {
+            _context.Expenses.Update(expense);
+        }
     }
 }

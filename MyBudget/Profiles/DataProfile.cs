@@ -17,6 +17,11 @@ namespace MyBudget.Profiles
             CreateMap<IncomeTypeCreateDto, IncomeType>();
             CreateMap<ExpenseCreateDto, Expense>();
             CreateMap<ExpenseTypeCreateDto, ExpenseType>();
+
+            CreateMap<IncomeUpdateDto, Income>();
+            CreateMap<IncomeTypeUpdateDto, IncomeType>();
+            CreateMap<ExpenseUpdateDto, Expense>();
+            CreateMap<ExpenseTypeUpdateDto, ExpenseType>();
         }
     }
 }

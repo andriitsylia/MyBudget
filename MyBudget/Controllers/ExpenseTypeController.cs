@@ -25,6 +25,7 @@ namespace MyBudget.Controllers
         public ActionResult<IEnumerable<ExpenseTypeReadDto>> GetAll()
         {
             var expenseTypeItems = _repository.GetAll();
+            
             if (expenseTypeItems != null)
             {
                 return Ok(_mapper.Map<IEnumerable<ExpenseTypeReadDto>>(expenseTypeItems));
@@ -39,6 +40,7 @@ namespace MyBudget.Controllers
         public ActionResult<ExpenseTypeReadDto> ExpenseTypeGetById(int id)
         {
             var expenseTypeItem = _repository.GetById(id);
+            
             if (expenseTypeItem != null)
             {
                 return Ok(_mapper.Map<ExpenseTypeReadDto>(expenseTypeItem));
@@ -52,13 +54,30 @@ namespace MyBudget.Controllers
         [HttpPost]
         public ActionResult<ExpenseTypeReadDto> Create(ExpenseTypeCreateDto expenseTypeCreateDto)
         {
-            var expenseType = _mapper.Map<ExpenseType>(expenseTypeCreateDto);
-            _repository.Create(expenseType);
+            var expenseTypeItem = _mapper.Map<ExpenseType>(expenseTypeCreateDto);
+            _repository.Create(expenseTypeItem);
             _repository.SaveChanges();
 
-            var expenseTypeReadDto = _mapper.Map<ExpenseTypeReadDto>(expenseType);
+            var expenseTypeReadDto = _mapper.Map<ExpenseTypeReadDto>(expenseTypeItem);
 
             return CreatedAtRoute(nameof(ExpenseTypeGetById), new { id = expenseTypeReadDto.Id}, expenseTypeReadDto);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update(int id, ExpenseTypeUpdateDto expenseTypeUpdateDto)
+        {
+            var expenseTypeItem = _repository.GetById(id);
+            
+            if (expenseTypeItem == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(expenseTypeUpdateDto, expenseTypeItem);
+            _repository.Update(expenseTypeItem);
+            _repository.SaveChanges();
+
+            return Ok();
         }
 
     }
