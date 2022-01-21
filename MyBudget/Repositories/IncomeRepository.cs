@@ -48,6 +48,14 @@ namespace MyBudget.Repositories
             return _context.Incomes.Include(it => it.IncomeType).FirstOrDefault(i => i.Id == id);
         }
 
+        public IEnumerable<Income> GetByDate(DateTime beginDate, DateTime endDate)
+        {
+            return _context.Incomes.Where(i => beginDate <= i.Date && i.Date <= endDate)
+                                   .Include(it => it.IncomeType)
+                                   .Select(i => i)
+                                   .ToList();
+        }
+
         public bool SaveChanges()
         {
             return _context.SaveChanges() >= 0;

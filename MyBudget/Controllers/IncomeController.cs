@@ -5,6 +5,9 @@ using MyBudget.Models;
 using MyBudget.Interfaces;
 using AutoMapper;
 using MyBudget.Dtos;
+using System;
+using MyBudget.Services;
+using System.Linq;
 
 namespace MyBudget.Controllers
 {
@@ -25,7 +28,7 @@ namespace MyBudget.Controllers
         public ActionResult<IEnumerable<IncomeReadDto>> GetAll()
         {
             var incomeItems = _repository.GetAll();
-            
+
             if (incomeItems != null)
             {
                 return Ok(_mapper.Map<IEnumerable<IncomeReadDto>>(incomeItems));
@@ -40,10 +43,61 @@ namespace MyBudget.Controllers
         public ActionResult<IncomeReadDto> IncomeGetById(int id)
         {
             var incomeItem = _repository.GetById(id);
-            
+
             if (incomeItem != null)
             {
                 return Ok(_mapper.Map<IncomeReadDto>(incomeItem));
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("date={date}")]
+        public ActionResult<IEnumerable<IncomeReportDto>> GetByDate(string date)
+        {
+            if (date == null)
+            {
+                return BadRequest();
+            }
+
+            if (!DateTime.TryParse(date, out DateTime beginDate))
+            {
+                return BadRequest();
+            }
+
+            var incomeItems = _repository.GetByDate(beginDate, beginDate);
+
+            if (incomeItems != null && incomeItems.Any())
+            {
+                return Ok(new TotalIncome().GetbyDateInterval(beginDate, beginDate, incomeItems));
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        [HttpGet("begindate={begindate}&enddate={enddate}")]
+        public ActionResult<IEnumerable<IncomeReportDto>> GetByDate(string begindate, string enddate)
+        {
+            if (begindate == null || enddate == null)
+            {
+                return BadRequest();
+            }
+
+            if (!(DateTime.TryParse(begindate, out DateTime beginDate) && DateTime.TryParse(enddate, out DateTime endDate)))
+            {
+                return BadRequest();
+            }
+
+            var incomeItems = _repository.GetByDate(beginDate, endDate);
+
+            if (incomeItems != null && incomeItems.Any())
+            {
+                return Ok(new TotalIncome().GetbyDateInterval(beginDate, endDate, incomeItems));
             }
             else
             {

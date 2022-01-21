@@ -47,6 +47,14 @@ namespace MyBudget.Repositories
             return _context.Expenses.Include(et => et.ExpenseType).FirstOrDefault(e => e.Id == id);
         }
 
+        public IEnumerable<Expense> GetByDate(DateTime beginDate, DateTime endDate)
+        {
+            return _context.Expenses.Where(i => beginDate <= i.Date && i.Date <= endDate)
+                                    .Include(it => it.ExpenseType)
+                                    .Select(i => i)
+                                    .ToList();
+        }
+
         public bool SaveChanges()
         {
             return _context.SaveChanges() >= 0;

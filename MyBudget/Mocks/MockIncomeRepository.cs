@@ -48,6 +48,11 @@ namespace MyBudget.Mocks
             };
         }
 
+        public IEnumerable<Income> GetByDate(DateTime beginDate, DateTime endDate)
+        {
+            throw new NotImplementedException();
+        }
+
         public Income GetById(int id)
         {
             return new Income()
