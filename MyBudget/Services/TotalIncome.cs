@@ -1,8 +1,8 @@
-﻿using MyBudget.Models;
-using MyBudget.Dtos;
+﻿using MyBudget.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DAL.Entities;
 
 namespace MyBudget.Services
 {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MyBudget.Dtos;
-using MyBudget.Models;
+using DAL.Entities;
 
 namespace MyBudget.Profiles
 {

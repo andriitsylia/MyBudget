@@ -1,6 +1,6 @@
-﻿using MyBudget.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using DAL.Entities;
 
 namespace MyBudget.Dtos
 {

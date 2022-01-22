@@ -8,15 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using MyBudget.EF;
-using MyBudget.Interfaces;
-using MyBudget.Mocks;
-using MyBudget.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DAL.Interfaces;
+using DAL.EF;
+using DAL.Repositories;
 
 namespace MyBudget
 {
@@ -31,7 +30,7 @@ namespace MyBudget
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyBudgetContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("MyBudgetConnection")));
+            services.AddDbContext<MyBudgetContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddControllers();
             

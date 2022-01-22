@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyBudget.Mocks;
-using MyBudget.Models;
 using System.Collections.Generic;
-using MyBudget.Interfaces;
 using AutoMapper;
 using MyBudget.Dtos;
+using DAL.Entities;
+using DAL.Interfaces;
 
 namespace MyBudget.Controllers
 {

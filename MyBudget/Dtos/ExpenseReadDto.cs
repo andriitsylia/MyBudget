@@ -1,5 +1,5 @@
 ﻿using System;
-using MyBudget.Models;
+using DAL.Entities;
 
 namespace MyBudget.Dtos
 {

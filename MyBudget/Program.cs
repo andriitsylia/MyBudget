@@ -1,8 +1,8 @@
+using DAL.Configurations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MyBudget.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
