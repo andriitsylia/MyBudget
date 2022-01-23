@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using MyBudget.Dtos;
+using BLL.Dtos;
 using DAL.Entities;
 using DAL.Interfaces;
+using BLL.Interfaces;
+using MyBudget.Dtos;
 
 namespace MyBudget.Controllers
 {
@@ -11,23 +13,23 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class ExpenseTypeController : ControllerBase
     {
-        private readonly IExpenseTypeRepository _repository;
+        private readonly IMyBudgetService<ExpenseTypeDto> _service;
         private readonly IMapper _mapper;
 
-        public ExpenseTypeController(IExpenseTypeRepository repository, IMapper mapper)
+        public ExpenseTypeController(IMyBudgetService<ExpenseTypeDto> service, IMapper mapper)
         {
-            _repository = repository;
+            _service = service;
             _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<ExpenseTypeReadDto>> GetAll()
         {
-            var expenseTypeItems = _repository.GetAll();
-            
-            if (expenseTypeItems != null)
+            var expenseTypeDtoItems = _service.GetAll();
+
+            if (expenseTypeDtoItems != null)
             {
-                return Ok(_mapper.Map<IEnumerable<ExpenseTypeReadDto>>(expenseTypeItems));
+                return Ok(_mapper.Map<IEnumerable<ExpenseTypeReadDto>>(expenseTypeDtoItems));
             }
             else
             {
@@ -38,11 +40,11 @@ namespace MyBudget.Controllers
         [HttpGet("{id}", Name ="ExpenseTypeGetById")]
         public ActionResult<ExpenseTypeReadDto> ExpenseTypeGetById(int id)
         {
-            var expenseTypeItem = _repository.GetById(id);
+            var expenseTypeDtoItem = _service.GetById(id);
             
-            if (expenseTypeItem != null)
+            if (expenseTypeDtoItem != null)
             {
-                return Ok(_mapper.Map<ExpenseTypeReadDto>(expenseTypeItem));
+                return Ok(_mapper.Map<ExpenseTypeReadDto>(expenseTypeDtoItem));
             }
             else
             {
@@ -53,45 +55,37 @@ namespace MyBudget.Controllers
         [HttpPost]
         public ActionResult<ExpenseTypeReadDto> Create(ExpenseTypeCreateDto expenseTypeCreateDto)
         {
-            var expenseTypeItem = _mapper.Map<ExpenseType>(expenseTypeCreateDto);
-            _repository.Create(expenseTypeItem);
-            _repository.SaveChanges();
+            var expenseTypeDtoItem = _mapper.Map<ExpenseTypeDto>(expenseTypeCreateDto);
 
-            var expenseTypeReadDto = _mapper.Map<ExpenseTypeReadDto>(expenseTypeItem);
+            _service.Create(expenseTypeDtoItem);
 
-            return CreatedAtRoute(nameof(ExpenseTypeGetById), new { id = expenseTypeReadDto.Id}, expenseTypeReadDto);
+            var expenseTypeReadDto = _mapper.Map<ExpenseTypeReadDto>(expenseTypeDtoItem);
+
+            return CreatedAtRoute(nameof(ExpenseTypeGetById), new { id = expenseTypeReadDto.Id }, expenseTypeReadDto);
         }
 
         [HttpPut("{id}")]
         public ActionResult Update(int id, ExpenseTypeUpdateDto expenseTypeUpdateDto)
         {
-            var expenseTypeItem = _repository.GetById(id);
-            
-            if (expenseTypeItem == null)
+            var expenseTypeDtoItem = _mapper.Map<ExpenseTypeDto>(expenseTypeUpdateDto);
+
+            if (_service.Update(id, expenseTypeDtoItem))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _mapper.Map(expenseTypeUpdateDto, expenseTypeItem);
-            _repository.Update(expenseTypeItem);
-            _repository.SaveChanges();
-
-            return Ok();
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var expenseTypeItem = _repository.GetById(id);
-            if (expenseTypeItem == null)
+            if (_service.Delete(id))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _repository.Delete(expenseTypeItem);
-            _repository.SaveChanges();
-
-            return Ok();
+            return NotFound();
         }
 
     }

@@ -6,7 +6,6 @@ namespace MyBudget.Dtos
     {
         [Required]
         public string Name { get; set; }
-
         public string Comment { get; set; }
 
     }

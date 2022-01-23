@@ -23,6 +23,5 @@ namespace DAL.Entities
 
         public IncomeType IncomeType { get; set; }
 
-
     }
 }

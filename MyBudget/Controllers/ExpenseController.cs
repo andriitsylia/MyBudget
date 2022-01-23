@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
-using MyBudget.Dtos;
+using BLL.Dtos;
 using System;
 using System.Linq;
-using MyBudget.Services;
+using BLL.Services;
 using DAL.Entities;
 using DAL.Interfaces;
+using BLL.Interfaces;
+using MyBudget.Dtos;
 
 namespace MyBudget.Controllers
 {
@@ -14,23 +16,23 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class ExpenseController : ControllerBase
     {
-        private readonly IExpenseRepository _repository;
+        private readonly IDateService<ExpenseDto> _service;
         private readonly IMapper _mapper;
 
-        public ExpenseController(IExpenseRepository repository, IMapper mapper)
+        public ExpenseController(IDateService<ExpenseDto> service, IMapper mapper)
         {
-            _repository = repository;
+            _service = service;
             _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<ExpenseReadDto>> GetAll()
         {
-            var expenseItems= _repository.GetAll();
-            
-            if (expenseItems != null)
+            var expenseDtoItems = _service.GetAll();
+
+            if (expenseDtoItems != null)
             {
-                return Ok(_mapper.Map<IEnumerable<ExpenseReadDto>>(expenseItems));
+                return Ok(_mapper.Map<IEnumerable<ExpenseReadDto>>(expenseDtoItems));
             }
             else
             {
@@ -41,11 +43,11 @@ namespace MyBudget.Controllers
         [HttpGet("{id}", Name = "ExpenseGetById")]
         public ActionResult<ExpenseReadDto> ExpenseGetById(int id)
         {
-            var expenseItem = _repository.GetById(id);
-            
-            if (expenseItem != null)
+            var expenseDtoItem = _service.GetById(id);
+
+            if (expenseDtoItem != null)
             {
-                return Ok(_mapper.Map<ExpenseReadDto>(expenseItem));
+                return Ok(_mapper.Map<ExpenseReadDto>(expenseDtoItem));
             }
             else
             {
@@ -54,33 +56,38 @@ namespace MyBudget.Controllers
         }
 
         [HttpGet("date={date}")]
-        public ActionResult<IEnumerable<ExpenseReportDto>> GetByDate(string date)
+        public ActionResult<IEnumerable<ExpenseDateIntervalReportDto>> GetByDate(string date)
         {
             if (date == null)
             {
                 return BadRequest();
             }
 
-            if (!DateTime.TryParse(date, out DateTime beginDate))
+            if (!DateTime.TryParse(date, out DateTime reportDate))
             {
                 return BadRequest();
             }
 
-            var expenseItems = _repository.GetByDate(beginDate, beginDate);
+            var expenseDtoItems = _service.GetByDate(reportDate);
 
-            if (expenseItems != null && expenseItems.Any())
+            if (expenseDtoItems != null && expenseDtoItems.Any())
             {
-                return Ok(new TotalExpense().GetbyDateInterval(beginDate, beginDate, expenseItems));
+                var expenseDateReportDto = new ExpenseDateReportDto();
+
+                expenseDateReportDto.Date = reportDate;
+                expenseDateReportDto.Total = expenseDtoItems.Select(i => i.Sum).Sum();
+                expenseDateReportDto.Expenses = _mapper.Map<IEnumerable<ExpenseReadDto>>(expenseDtoItems);
+
+                return Ok(expenseDateReportDto);
             }
             else
             {
                 return NotFound();
             }
-
         }
 
         [HttpGet("begindate={begindate}&enddate={enddate}")]
-        public ActionResult<IEnumerable<ExpenseReadDto>> GetByDate(string begindate, string enddate)
+        public ActionResult<IEnumerable<ExpenseDateIntervalReportDto>> GetByDate(string begindate, string enddate)
         {
             if (begindate == null || enddate == null)
             {
@@ -92,11 +99,18 @@ namespace MyBudget.Controllers
                 return BadRequest();
             }
 
-            var expenseItems = _repository.GetByDate(beginDate, endDate);
+            var expenseDtoItems = _service.GetByDateInterval(beginDate, endDate);
 
-            if (expenseItems != null && expenseItems.Any())
+            if (expenseDtoItems != null && expenseDtoItems.Any())
             {
-                return Ok(new TotalExpense().GetbyDateInterval(beginDate, endDate, expenseItems));
+                var expenseDateIntervalReportDto = new ExpenseDateIntervalReportDto();
+
+                expenseDateIntervalReportDto.BeginDate = beginDate;
+                expenseDateIntervalReportDto.EndDate = endDate;
+                expenseDateIntervalReportDto.Total = expenseDtoItems.Select(i => i.Sum).Sum();
+                expenseDateIntervalReportDto.Expenses = _mapper.Map<IEnumerable<ExpenseReadDto>>(expenseDtoItems);
+
+                return Ok(expenseDateIntervalReportDto);
             }
             else
             {
@@ -107,45 +121,37 @@ namespace MyBudget.Controllers
         [HttpPost]
         public ActionResult<ExpenseReadDto> Create(ExpenseCreateDto expenseCreateDto)
         {
-            var expense = _mapper.Map<Expense>(expenseCreateDto);
-            _repository.Create(expense);
-            _repository.SaveChanges();
+            var expenseDtoItem = _mapper.Map<ExpenseDto>(expenseCreateDto);
 
-            var expenseReadDto = _mapper.Map<ExpenseReadDto>(expense);
+            _service.Create(expenseDtoItem);
 
-            return CreatedAtRoute(nameof(ExpenseGetById), new { id = expenseReadDto.Id}, expenseReadDto);
+            var expenseReadDto = _mapper.Map<IncomeReadDto>(expenseDtoItem);
+
+            return CreatedAtRoute(nameof(ExpenseGetById), new { id = expenseReadDto.Id }, expenseReadDto);
         }
 
         [HttpPut("{id}")]
         public ActionResult Update(int id, ExpenseUpdateDto expenseUpdateDto)
         {
-            var expenseItem = _repository.GetById(id);
-            
-            if (expenseItem == null)
+            var expenseDtoItem = _mapper.Map<ExpenseDto>(expenseUpdateDto);
+
+            if (_service.Update(id, expenseDtoItem))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _mapper.Map(expenseUpdateDto, expenseItem);
-            _repository.Update(expenseItem);
-            _repository.SaveChanges();
-
-            return Ok();
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var expenseItem = _repository.GetById(id);
-            if (expenseItem == null)
+            if (_service.Delete(id))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _repository.Delete(expenseItem);
-            _repository.SaveChanges();
-
-            return Ok();
+            return NotFound();
         }
     }
 }

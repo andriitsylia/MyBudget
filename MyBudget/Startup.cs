@@ -16,6 +16,10 @@ using AutoMapper;
 using DAL.Interfaces;
 using DAL.EF;
 using DAL.Repositories;
+using DAL.Entities;
+using BLL.Interfaces;
+using BLL.Dtos;
+using BLL.Services;
 
 namespace MyBudget
 {
@@ -38,10 +42,23 @@ namespace MyBudget
             
             services.AddSwaggerGen(c =>c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBudget", Version = "v1" }));
 
-            services.AddScoped<IIncomeTypeRepository, IncomeTypeRepository>();
-            services.AddScoped<IIncomeRepository, IncomeRepository>();
-            services.AddScoped<IExpenseTypeRepository, ExpenseTypeRepository>();
-            services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            //services.AddScoped<IIncomeTypeRepository, IncomeTypeRepository>();
+            //services.AddScoped<IIncomeRepository, IncomeRepository>();
+            //services.AddScoped<IExpenseTypeRepository, ExpenseTypeRepository>();
+            //services.AddScoped<IExpenseRepository, ExpenseRepository>();
+
+            services.AddScoped<IMyBudgetRepository<Income>, MyBudgetRepository<Income>>();
+            services.AddScoped<IMyBudgetRepository<IncomeType>, MyBudgetRepository<IncomeType>>();
+            services.AddScoped<IMyBudgetRepository<Expense>, MyBudgetRepository<Expense>>();
+            services.AddScoped<IMyBudgetRepository<ExpenseType>, MyBudgetRepository<ExpenseType>>();
+
+            //services.AddScoped<IMyBudgetService<IncomeDto>, IncomeService>();
+            services.AddScoped<IDateService<IncomeDto>, IncomeService>();
+            services.AddScoped<IMyBudgetService<IncomeTypeDto>, IncomeTypeService>();
+            //services.AddScoped<IMyBudgetService<ExpenseDto>, ExpenseService>();
+            services.AddScoped<IDateService<ExpenseDto>, ExpenseService>();
+            services.AddScoped<IMyBudgetService<ExpenseTypeDto>, ExpenseTypeService>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

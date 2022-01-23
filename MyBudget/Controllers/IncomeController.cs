@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
-using MyBudget.Dtos;
+using BLL.Dtos;
 using System;
-using MyBudget.Services;
+using BLL.Services;
 using System.Linq;
 using DAL.Entities;
 using DAL.Interfaces;
+using BLL.Interfaces;
+using MyBudget.Dtos;
 
 namespace MyBudget.Controllers
 {
@@ -14,23 +16,23 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class IncomeController : ControllerBase
     {
-        private readonly IIncomeRepository _repository;
+        private readonly IDateService<IncomeDto> _service;
         private readonly IMapper _mapper;
 
-        public IncomeController(IIncomeRepository repository, IMapper mapper)
+        public IncomeController(IDateService<IncomeDto> service, IMapper mapper)
         {
-            _repository = repository;
+            _service = service;
             _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<IncomeReadDto>> GetAll()
         {
-            var incomeItems = _repository.GetAll();
+            var incomeDtoItems = _service.GetAll();
 
-            if (incomeItems != null)
+            if (incomeDtoItems != null)
             {
-                return Ok(_mapper.Map<IEnumerable<IncomeReadDto>>(incomeItems));
+                return Ok(_mapper.Map<IEnumerable<IncomeReadDto>>(incomeDtoItems));
             }
             else
             {
@@ -41,11 +43,11 @@ namespace MyBudget.Controllers
         [HttpGet("{id}", Name = "IncomeGetById")]
         public ActionResult<IncomeReadDto> IncomeGetById(int id)
         {
-            var incomeItem = _repository.GetById(id);
+            var incomeDtoItem = _service.GetById(id);
 
-            if (incomeItem != null)
+            if (incomeDtoItem != null)
             {
-                return Ok(_mapper.Map<IncomeReadDto>(incomeItem));
+                return Ok(_mapper.Map<IncomeReadDto>(incomeDtoItem));
             }
             else
             {
@@ -54,33 +56,37 @@ namespace MyBudget.Controllers
         }
 
         [HttpGet("date={date}")]
-        public ActionResult<IEnumerable<IncomeReportDto>> GetByDate(string date)
+        public ActionResult<IEnumerable<IncomeDateReportDto>> GetByDate(string date)
         {
             if (date == null)
             {
                 return BadRequest();
             }
 
-            if (!DateTime.TryParse(date, out DateTime beginDate))
+            if (!DateTime.TryParse(date, out DateTime reportDate))
             {
                 return BadRequest();
             }
+            var incomeDtoItems = _service.GetByDate(reportDate);
 
-            var incomeItems = _repository.GetByDate(beginDate, beginDate);
-
-            if (incomeItems != null && incomeItems.Any())
+            if (incomeDtoItems != null && incomeDtoItems.Any())
             {
-                return Ok(new TotalIncome().GetbyDateInterval(beginDate, beginDate, incomeItems));
+                var incomeDateReportDto = new IncomeDateReportDto();
+
+                incomeDateReportDto.Date = reportDate;
+                incomeDateReportDto.Total = incomeDtoItems.Select(i => i.Sum).Sum();
+                incomeDateReportDto.Incomes = _mapper.Map<IEnumerable<IncomeReadDto>>(incomeDtoItems);
+
+                return Ok(incomeDateReportDto);
             }
             else
             {
                 return NotFound();
             }
-
         }
 
         [HttpGet("begindate={begindate}&enddate={enddate}")]
-        public ActionResult<IEnumerable<IncomeReportDto>> GetByDate(string begindate, string enddate)
+        public ActionResult<IEnumerable<IncomeDateReportDto>> GetByDate(string begindate, string enddate)
         {
             if (begindate == null || enddate == null)
             {
@@ -92,11 +98,18 @@ namespace MyBudget.Controllers
                 return BadRequest();
             }
 
-            var incomeItems = _repository.GetByDate(beginDate, endDate);
+            var incomeDtoItems = _service.GetByDateInterval(beginDate, endDate);
 
-            if (incomeItems != null && incomeItems.Any())
+            if (incomeDtoItems != null && incomeDtoItems.Any())
             {
-                return Ok(new TotalIncome().GetbyDateInterval(beginDate, endDate, incomeItems));
+                var incomeDateIntervalReportDto = new IncomeDateIntervalReportDto();
+
+                incomeDateIntervalReportDto.BeginDate = beginDate;
+                incomeDateIntervalReportDto.EndDate = endDate;
+                incomeDateIntervalReportDto.Total = incomeDtoItems.Select(i => i.Sum).Sum();
+                incomeDateIntervalReportDto.Incomes = _mapper.Map<IEnumerable<IncomeReadDto>>(incomeDtoItems);
+
+                return Ok(incomeDateIntervalReportDto);
             }
             else
             {
@@ -107,46 +120,37 @@ namespace MyBudget.Controllers
         [HttpPost]
         public ActionResult<IncomeReadDto> Create(IncomeCreateDto incomeCreateDto)
         {
-            var incomeItem = _mapper.Map<Income>(incomeCreateDto);
-            
-            _repository.Create(incomeItem);
-            _repository.SaveChanges();
+            var incomeDtoItem = _mapper.Map<IncomeDto>(incomeCreateDto);
 
-            var incomeReadDto = _mapper.Map<IncomeReadDto>(incomeItem);
+            _service.Create(incomeDtoItem);
 
-            return CreatedAtRoute(nameof(IncomeGetById), new { id = incomeReadDto.Id}, incomeReadDto);
+            var incomeReadDto = _mapper.Map<IncomeReadDto>(incomeDtoItem);
+
+            return CreatedAtRoute(nameof(IncomeGetById), new { id = incomeReadDto.Id }, incomeReadDto);
         }
 
         [HttpPut("{id}")]
         public ActionResult Update(int id, IncomeUpdateDto incomeUpdateDto)
         {
-            var incomeItem = _repository.GetById(id);
-            
-            if (incomeItem == null)
-            {
-                return NotFound();
-            }
-            _mapper.Map(incomeUpdateDto, incomeItem);
-            _repository.Update(incomeItem);
-            _repository.SaveChanges();
+            var incomeDtoItem = _mapper.Map<IncomeDto>(incomeUpdateDto);
 
-            return Ok();
+            if (_service.Update(id, incomeDtoItem))
+            {
+                return Ok();
+            }
+
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var incomeItem = _repository.GetById(id);
-            
-            if (incomeItem == null)
+            if (_service.Delete(id))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _repository.Delete(incomeItem);
-            _repository.SaveChanges();
-
-            return Ok();
+            return NotFound();
         }
     }
 }

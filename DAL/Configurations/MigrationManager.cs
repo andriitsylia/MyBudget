@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL.EF;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -11,7 +12,7 @@ namespace DAL.Configurations
         {
             using (var scope = host.Services.CreateScope())
             {
-                using (var myBudgetContext = scope.ServiceProvider.GetRequiredService<EF.MyBudgetContext>())
+                using (var myBudgetContext = scope.ServiceProvider.GetRequiredService<MyBudgetContext>())
                 {
                     try
                     {

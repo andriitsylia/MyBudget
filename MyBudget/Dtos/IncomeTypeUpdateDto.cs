@@ -10,6 +10,5 @@ namespace MyBudget.Dtos
 
         [MaxLength(50)]
         public string Comment { get; set; }
-
     }
 }

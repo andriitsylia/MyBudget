@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
-using MyBudget.Dtos;
+using BLL.Dtos;
 using DAL.Entities;
 using DAL.Interfaces;
+using BLL.Interfaces;
+using MyBudget.Dtos;
 
 namespace MyBudget.Controllers
 {
@@ -11,23 +13,23 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class IncomeTypeController : ControllerBase
     {
-        private readonly IIncomeTypeRepository _repository;
+        private readonly IMyBudgetService<IncomeTypeDto> _service;
         private readonly IMapper _mapper;
 
-        public IncomeTypeController(IIncomeTypeRepository repository, IMapper mapper)
+        public IncomeTypeController(IMyBudgetService<IncomeTypeDto> service, IMapper mapper)
         {
-            _repository = repository;
+            _service = service;
             _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<IncomeTypeReadDto>> GetAll()
         {
-            var incomeTypeItems = _repository.GetAll();
-            
-            if (incomeTypeItems != null)
+            var incomeTypeDtoItems = _service.GetAll();
+
+            if (incomeTypeDtoItems != null)
             {
-                return Ok(_mapper.Map<IEnumerable<IncomeTypeReadDto>>(incomeTypeItems));
+                return Ok(_mapper.Map<IEnumerable<IncomeTypeReadDto>>(incomeTypeDtoItems));
             }
             else
             {
@@ -38,11 +40,11 @@ namespace MyBudget.Controllers
         [HttpGet("{id}", Name = "IncomeTypeGetById")]
         public ActionResult<IncomeTypeReadDto> IncomeTypeGetById(int id)
         {
-            var incomeTypeItem = _repository.GetById(id);
+            var incomeTypeDtoItem = _service.GetById(id);
             
-            if (incomeTypeItem != null)
+            if (incomeTypeDtoItem != null)
             {
-                return Ok(_mapper.Map<IncomeTypeReadDto>(incomeTypeItem));
+                return Ok(_mapper.Map<IncomeTypeReadDto>(incomeTypeDtoItem));
             }
             else
             {
@@ -53,12 +55,11 @@ namespace MyBudget.Controllers
         [HttpPost]
         public ActionResult<IncomeTypeReadDto> Create(IncomeTypeCreateDto incomeTypeCreateDto)
         {
-            var incomeTypeItem = _mapper.Map<IncomeType>(incomeTypeCreateDto);
+            var incomeTypeDtoItem = _mapper.Map<IncomeTypeDto>(incomeTypeCreateDto);
 
-            _repository.Create(incomeTypeItem);
-            _repository.SaveChanges();
+            _service.Create(incomeTypeDtoItem);
 
-            var incomeTypeReadDto = _mapper.Map<IncomeTypeReadDto>(incomeTypeItem);
+            var incomeTypeReadDto = _mapper.Map<IncomeTypeReadDto>(incomeTypeDtoItem);
 
             return CreatedAtRoute(nameof(IncomeTypeGetById), new { id = incomeTypeReadDto.Id }, incomeTypeReadDto);
         }
@@ -66,32 +67,25 @@ namespace MyBudget.Controllers
         [HttpPut("{id}")]
         public ActionResult Update(int id, IncomeTypeUpdateDto incomeTypeUpdateDto)
         {
-            var incomeTypeItem = _repository.GetById(id);
-            
-            if (incomeTypeItem == null)
+            var incomeTypeDtoItem = _mapper.Map<IncomeTypeDto>(incomeTypeUpdateDto);
+
+            if (_service.Update(id, incomeTypeDtoItem))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _mapper.Map(incomeTypeUpdateDto, incomeTypeItem);
-            _repository.Update(incomeTypeItem);
-            _repository.SaveChanges();
-
-            return Ok();
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var incomeTypeItem = _repository.GetById(id);
-            if (incomeTypeItem == null)
+            if (_service.Delete(id))
             {
-                return NotFound();
+                return Ok();
             }
-            _repository.Delete(incomeTypeItem);
-            _repository.SaveChanges();
 
-            return Ok();
+            return NotFound();
         }
     }
 }

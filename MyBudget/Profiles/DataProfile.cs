@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using MyBudget.Dtos;
 using DAL.Entities;
+using BLL.Dtos;
+using MyBudget.Dtos;
 
 namespace MyBudget.Profiles
 {
@@ -8,20 +9,37 @@ namespace MyBudget.Profiles
     {
         public DataProfile()
         {
-            CreateMap<Income, IncomeReadDto>();
-            CreateMap<IncomeType, IncomeTypeReadDto>();
-            CreateMap<Expense, ExpenseReadDto>();
-            CreateMap<ExpenseType, ExpenseTypeReadDto>();
+            CreateMap<IncomeTypeDto, IncomeTypeReadDto>();
+            CreateMap<IncomeTypeCreateDto, IncomeTypeDto>();
+            CreateMap<IncomeTypeUpdateDto, IncomeTypeDto>();
 
-            CreateMap<IncomeCreateDto, Income>();
-            CreateMap<IncomeTypeCreateDto, IncomeType>();
-            CreateMap<ExpenseCreateDto, Expense>();
-            CreateMap<ExpenseTypeCreateDto, ExpenseType>();
+            CreateMap<IncomeDto, IncomeReadDto>();
+            CreateMap<IncomeCreateDto, IncomeDto>();
+            CreateMap<IncomeUpdateDto, IncomeDto>();
 
-            CreateMap<IncomeUpdateDto, Income>();
-            CreateMap<IncomeTypeUpdateDto, IncomeType>();
-            CreateMap<ExpenseUpdateDto, Expense>();
-            CreateMap<ExpenseTypeUpdateDto, ExpenseType>();
+            CreateMap<ExpenseTypeDto, ExpenseTypeReadDto>();
+            CreateMap<ExpenseTypeCreateDto, ExpenseTypeDto>();
+            CreateMap<ExpenseTypeUpdateDto, ExpenseTypeDto>();
+
+            CreateMap<ExpenseDto, ExpenseReadDto>();
+            CreateMap<ExpenseCreateDto, ExpenseDto>();
+            CreateMap<ExpenseUpdateDto, ExpenseDto>();
+
+
+            //CreateMap<Income, IncomeReadDto>();
+            //CreateMap<IncomeType, IncomeTypeReadDto>();
+            //CreateMap<Expense, ExpenseReadDto>();
+            //CreateMap<ExpenseType, ExpenseTypeReadDto>();
+
+            //CreateMap<IncomeCreateDto, Income>();
+            //CreateMap<IncomeTypeCreateDto, IncomeType>();
+            //CreateMap<ExpenseCreateDto, Expense>();
+            //CreateMap<ExpenseTypeCreateDto, ExpenseType>();
+
+            //CreateMap<IncomeUpdateDto, Income>();
+            //CreateMap<IncomeTypeUpdateDto, IncomeType>();
+            //CreateMap<ExpenseUpdateDto, Expense>();
+            //CreateMap<ExpenseTypeUpdateDto, ExpenseType>();
         }
     }
 }

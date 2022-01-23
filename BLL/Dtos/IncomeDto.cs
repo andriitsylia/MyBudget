@@ -1,10 +1,14 @@
 ﻿using System;
-using DAL.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MyBudget.Dtos
+namespace BLL.Dtos
 {
-    public class IncomeCreateDto
+    public class IncomeDto
     {
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public float Sum { get; set; }
         public string Comment { get; set; }

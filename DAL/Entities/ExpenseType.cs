@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.Entities
 {
@@ -14,5 +15,7 @@ namespace DAL.Entities
 
         [MaxLength(50)]
         public string Comment { get; set; }
+
+        public ICollection<Expense> Expenses { get; set; }
     }
 }
