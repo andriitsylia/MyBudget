@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DAL.Entities;
 using BLL.Dtos;
 using MyBudget.Dtos;
 
@@ -11,35 +10,27 @@ namespace MyBudget.Profiles
         {
             CreateMap<IncomeTypeDto, IncomeTypeReadDto>();
             CreateMap<IncomeTypeCreateDto, IncomeTypeDto>();
+            CreateMap<IncomeTypeCreateDto, IncomeTypeReadDto>();
             CreateMap<IncomeTypeUpdateDto, IncomeTypeDto>();
 
             CreateMap<IncomeDto, IncomeReadDto>();
             CreateMap<IncomeCreateDto, IncomeDto>();
+            CreateMap<IncomeCreateDto, IncomeReadDto>();
             CreateMap<IncomeUpdateDto, IncomeDto>();
+            CreateMap<IncomeDateTotalDto, IncomeDateReportDto>().IncludeAllDerived();
+            CreateMap<IncomeDateIntervalTotalDto, IncomeDateIntervalReportDto>().IncludeAllDerived();
 
             CreateMap<ExpenseTypeDto, ExpenseTypeReadDto>();
             CreateMap<ExpenseTypeCreateDto, ExpenseTypeDto>();
+            CreateMap<ExpenseTypeCreateDto, ExpenseTypeReadDto>();
             CreateMap<ExpenseTypeUpdateDto, ExpenseTypeDto>();
 
             CreateMap<ExpenseDto, ExpenseReadDto>();
             CreateMap<ExpenseCreateDto, ExpenseDto>();
+            CreateMap<ExpenseCreateDto, ExpenseReadDto>();
             CreateMap<ExpenseUpdateDto, ExpenseDto>();
-
-
-            //CreateMap<Income, IncomeReadDto>();
-            //CreateMap<IncomeType, IncomeTypeReadDto>();
-            //CreateMap<Expense, ExpenseReadDto>();
-            //CreateMap<ExpenseType, ExpenseTypeReadDto>();
-
-            //CreateMap<IncomeCreateDto, Income>();
-            //CreateMap<IncomeTypeCreateDto, IncomeType>();
-            //CreateMap<ExpenseCreateDto, Expense>();
-            //CreateMap<ExpenseTypeCreateDto, ExpenseType>();
-
-            //CreateMap<IncomeUpdateDto, Income>();
-            //CreateMap<IncomeTypeUpdateDto, IncomeType>();
-            //CreateMap<ExpenseUpdateDto, Expense>();
-            //CreateMap<ExpenseTypeUpdateDto, ExpenseType>();
+            CreateMap<ExpenseDateTotalDto, ExpenseDateReportDto>().IncludeAllDerived();
+            CreateMap<ExpenseDateIntervalTotalDto, ExpenseDateIntervalReportDto>().IncludeAllDerived();
         }
     }
 }

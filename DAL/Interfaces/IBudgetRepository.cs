@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IMyBudgetRepository<T> where T : class
+    public interface IBudgetRepository<T> where T : class
     {
         void Create(T entity);
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,

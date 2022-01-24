@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using BLL.Dtos;
-using DAL.Entities;
-using DAL.Interfaces;
 using BLL.Interfaces;
 using MyBudget.Dtos;
 
@@ -13,10 +11,10 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class ExpenseTypeController : ControllerBase
     {
-        private readonly IMyBudgetService<ExpenseTypeDto> _service;
+        private readonly IBudgetService<ExpenseTypeDto> _service;
         private readonly IMapper _mapper;
 
-        public ExpenseTypeController(IMyBudgetService<ExpenseTypeDto> service, IMapper mapper)
+        public ExpenseTypeController(IBudgetService<ExpenseTypeDto> service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;

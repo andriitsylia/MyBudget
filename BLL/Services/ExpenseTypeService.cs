@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class ExpenseTypeService :IMyBudgetService<ExpenseTypeDto>
+    public class ExpenseTypeService :IBudgetService<ExpenseTypeDto>
     {
-        private readonly IMyBudgetRepository<ExpenseType> _repository;
+        private readonly IBudgetRepository<ExpenseType> _repository;
         private readonly IMapper _mapper;
 
-        public ExpenseTypeService(IMyBudgetRepository<ExpenseType> repository, IMapper mapper)
+        public ExpenseTypeService(IBudgetRepository<ExpenseType> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -52,7 +52,7 @@ namespace BLL.Services
             {
                 return false;
             }
-            item.Id = id; // !!!!! костыль !!!!! .ForMember(d => d.Nickname, (options) => options.Ignore()
+
             _mapper.Map(item, expenseTypeItem);
             _repository.Update(expenseTypeItem);
             _repository.SaveChanges();

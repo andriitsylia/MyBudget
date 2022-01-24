@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class MyBudgetRepository<T> : IMyBudgetRepository<T> where T : class
+    public class BudgetRepository<T> : IBudgetRepository<T> where T : class
     {
         private readonly MyBudgetContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public MyBudgetRepository(MyBudgetContext context)
+        public BudgetRepository(MyBudgetContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

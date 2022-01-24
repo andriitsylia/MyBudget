@@ -8,45 +8,17 @@ namespace BLL.Profiles
     {
         public DataProfile()
         {
-            CreateMap<IncomeType, IncomeTypeDto>();
-            CreateMap<IncomeTypeDto, IncomeType>();
-            //CreateMap<IncomeTypeDto, IncomeTypeReadDto>();
-            //CreateMap<IncomeTypeCreateDto, IncomeTypeDto>();
-            //CreateMap<IncomeTypeUpdateDto, IncomeTypeDto>();
+            CreateMap<IncomeType, IncomeTypeDto>().ReverseMap()
+                .ForMember(et => et.Id, options => options.Ignore());
 
-            CreateMap<Income, IncomeDto>();
-            CreateMap<IncomeDto, Income>();
-            //CreateMap<IncomeDto, IncomeReadDto>();
-            //CreateMap<IncomeCreateDto, IncomeDto>();
-            //CreateMap<IncomeUpdateDto, IncomeDto>();
+            CreateMap<Income, IncomeDto>().ReverseMap()
+                .ForMember(et => et.Id, options => options.Ignore());
 
-            CreateMap<ExpenseType, ExpenseTypeDto>();
-            CreateMap<ExpenseTypeDto, ExpenseType>();
-            //CreateMap<ExpenseTypeDto, ExpenseTypeReadDto>();
-            //CreateMap<ExpenseTypeCreateDto, ExpenseTypeDto>();
-            //CreateMap<ExpenseTypeUpdateDto, ExpenseTypeDto>();
+            CreateMap<ExpenseType, ExpenseTypeDto>().ReverseMap()
+                .ForMember(et => et.Id, options => options.Ignore());
 
-            CreateMap<Expense, ExpenseDto>();
-            CreateMap<ExpenseDto, Expense>();
-            //CreateMap<ExpenseDto, ExpenseReadDto>();
-            //CreateMap<ExpenseCreateDto, ExpenseDto>();
-            //CreateMap<ExpenseUpdateDto, ExpenseDto>();
-
-
-            //CreateMap<Income, IncomeReadDto>();
-            //CreateMap<IncomeType, IncomeTypeReadDto>();
-            //CreateMap<Expense, ExpenseReadDto>();
-            //CreateMap<ExpenseType, ExpenseTypeReadDto>();
-
-            //CreateMap<IncomeCreateDto, Income>();
-            //CreateMap<IncomeTypeCreateDto, IncomeType>();
-            //CreateMap<ExpenseCreateDto, Expense>();
-            //CreateMap<ExpenseTypeCreateDto, ExpenseType>();
-
-            //CreateMap<IncomeUpdateDto, Income>();
-            //CreateMap<IncomeTypeUpdateDto, IncomeType>();
-            //CreateMap<ExpenseUpdateDto, Expense>();
-            //CreateMap<ExpenseTypeUpdateDto, ExpenseType>();
+            CreateMap<Expense, ExpenseDto>().ReverseMap()
+                .ForMember(et => et.Id, options => options.Ignore());
         }
     }
 }

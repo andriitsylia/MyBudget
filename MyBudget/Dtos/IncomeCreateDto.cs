@@ -1,5 +1,4 @@
 ﻿using System;
-using DAL.Entities;
 
 namespace MyBudget.Dtos
 {

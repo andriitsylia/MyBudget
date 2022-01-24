@@ -4,11 +4,9 @@ using AutoMapper;
 using BLL.Dtos;
 using System;
 using System.Linq;
-using BLL.Services;
-using DAL.Entities;
-using DAL.Interfaces;
-using BLL.Interfaces;
 using MyBudget.Dtos;
+using BLL.Interfaces;
+using BLL.Services;
 
 namespace MyBudget.Controllers
 {
@@ -16,10 +14,10 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class ExpenseController : ControllerBase
     {
-        private readonly IDateService<ExpenseDto> _service;
+        private readonly IByDateService<ExpenseDto> _service;
         private readonly IMapper _mapper;
 
-        public ExpenseController(IDateService<ExpenseDto> service, IMapper mapper)
+        public ExpenseController(IByDateService<ExpenseDto> service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
@@ -70,20 +68,15 @@ namespace MyBudget.Controllers
 
             var expenseDtoItems = _service.GetByDate(reportDate);
 
-            if (expenseDtoItems != null && expenseDtoItems.Any())
-            {
-                var expenseDateReportDto = new ExpenseDateReportDto();
-
-                expenseDateReportDto.Date = reportDate;
-                expenseDateReportDto.Total = expenseDtoItems.Select(i => i.Sum).Sum();
-                expenseDateReportDto.Expenses = _mapper.Map<IEnumerable<ExpenseReadDto>>(expenseDtoItems);
-
-                return Ok(expenseDateReportDto);
-            }
-            else
+            if (expenseDtoItems == null || !(expenseDtoItems.Any()))
             {
                 return NotFound();
             }
+
+            var expenseDateTotal = new ExpenseTotal().GetbyDate(reportDate, expenseDtoItems);
+
+            return Ok(_mapper.Map<ExpenseDateReportDto>(expenseDateTotal));
+
         }
 
         [HttpGet("begindate={begindate}&enddate={enddate}")]
@@ -101,21 +94,14 @@ namespace MyBudget.Controllers
 
             var expenseDtoItems = _service.GetByDateInterval(beginDate, endDate);
 
-            if (expenseDtoItems != null && expenseDtoItems.Any())
-            {
-                var expenseDateIntervalReportDto = new ExpenseDateIntervalReportDto();
-
-                expenseDateIntervalReportDto.BeginDate = beginDate;
-                expenseDateIntervalReportDto.EndDate = endDate;
-                expenseDateIntervalReportDto.Total = expenseDtoItems.Select(i => i.Sum).Sum();
-                expenseDateIntervalReportDto.Expenses = _mapper.Map<IEnumerable<ExpenseReadDto>>(expenseDtoItems);
-
-                return Ok(expenseDateIntervalReportDto);
-            }
-            else
+            if (expenseDtoItems == null || !(expenseDtoItems.Any()))
             {
                 return NotFound();
             }
+
+            var expenseDateIntervalTotal = new ExpenseTotal().GetbyDateInterval(beginDate, endDate, expenseDtoItems);
+
+            return Ok(_mapper.Map<ExpenseDateIntervalReportDto>(expenseDateIntervalTotal));
         }
 
         [HttpPost]
@@ -125,7 +111,7 @@ namespace MyBudget.Controllers
 
             _service.Create(expenseDtoItem);
 
-            var expenseReadDto = _mapper.Map<IncomeReadDto>(expenseDtoItem);
+            var expenseReadDto = _mapper.Map<ExpenseReadDto>(expenseDtoItem);
 
             return CreatedAtRoute(nameof(ExpenseGetById), new { id = expenseReadDto.Id }, expenseReadDto);
         }

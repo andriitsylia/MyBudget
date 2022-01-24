@@ -42,23 +42,16 @@ namespace MyBudget
             
             services.AddSwaggerGen(c =>c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBudget", Version = "v1" }));
 
-            //services.AddScoped<IIncomeTypeRepository, IncomeTypeRepository>();
-            //services.AddScoped<IIncomeRepository, IncomeRepository>();
-            //services.AddScoped<IExpenseTypeRepository, ExpenseTypeRepository>();
-            //services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            services.AddScoped<IBudgetRepository<Income>, BudgetRepository<Income>>();
+            services.AddScoped<IBudgetRepository<IncomeType>, BudgetRepository<IncomeType>>();
+            services.AddScoped<IBudgetRepository<Expense>, BudgetRepository<Expense>>();
+            services.AddScoped<IBudgetRepository<ExpenseType>, BudgetRepository<ExpenseType>>();
 
-            services.AddScoped<IMyBudgetRepository<Income>, MyBudgetRepository<Income>>();
-            services.AddScoped<IMyBudgetRepository<IncomeType>, MyBudgetRepository<IncomeType>>();
-            services.AddScoped<IMyBudgetRepository<Expense>, MyBudgetRepository<Expense>>();
-            services.AddScoped<IMyBudgetRepository<ExpenseType>, MyBudgetRepository<ExpenseType>>();
+            services.AddScoped<IBudgetService<IncomeTypeDto>, IncomeTypeService>();
+            services.AddScoped<IBudgetService<ExpenseTypeDto>, ExpenseTypeService>();
 
-            //services.AddScoped<IMyBudgetService<IncomeDto>, IncomeService>();
-            services.AddScoped<IDateService<IncomeDto>, IncomeService>();
-            services.AddScoped<IMyBudgetService<IncomeTypeDto>, IncomeTypeService>();
-            //services.AddScoped<IMyBudgetService<ExpenseDto>, ExpenseService>();
-            services.AddScoped<IDateService<ExpenseDto>, ExpenseService>();
-            services.AddScoped<IMyBudgetService<ExpenseTypeDto>, ExpenseTypeService>();
-
+            services.AddScoped<IByDateService<IncomeDto>, IncomeService>();
+            services.AddScoped<IByDateService<ExpenseDto>, ExpenseService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IMyBudgetService<T> where T : class
+    public interface IBudgetService<T> where T : class
     {
         void Create(T item);
         IEnumerable<T> GetAll();

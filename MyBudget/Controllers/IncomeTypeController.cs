@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using AutoMapper;
 using BLL.Dtos;
-using DAL.Entities;
-using DAL.Interfaces;
 using BLL.Interfaces;
 using MyBudget.Dtos;
 
@@ -13,10 +11,10 @@ namespace MyBudget.Controllers
     [Route("api/[controller]")]
     public class IncomeTypeController : ControllerBase
     {
-        private readonly IMyBudgetService<IncomeTypeDto> _service;
+        private readonly IBudgetService<IncomeTypeDto> _service;
         private readonly IMapper _mapper;
 
-        public IncomeTypeController(IMyBudgetService<IncomeTypeDto> service, IMapper mapper)
+        public IncomeTypeController(IBudgetService<IncomeTypeDto> service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;

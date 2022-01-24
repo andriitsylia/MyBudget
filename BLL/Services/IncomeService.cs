@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class IncomeService : IMyBudgetService<IncomeDto>, IDateService<IncomeDto>
+    public class IncomeService : IBudgetService<IncomeDto>, IByDateService<IncomeDto>
     {
-        private readonly IMyBudgetRepository<Income> _repository;
+        private readonly IBudgetRepository<Income> _repository;
         private readonly IMapper _mapper;
 
-        public IncomeService(IMyBudgetRepository<Income> repository, IMapper mapper)
+        public IncomeService(IBudgetRepository<Income> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -52,7 +52,7 @@ namespace BLL.Services
             {
                 return false;
             }
-            item.Id = id; // !!!!! костыль !!!!!
+
             _mapper.Map(item, incomeItem);
             _repository.Update(incomeItem);
             _repository.SaveChanges();

@@ -11,12 +11,12 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class IncomeTypeService : IMyBudgetService<IncomeTypeDto>
+    public class IncomeTypeService : IBudgetService<IncomeTypeDto>
     {
-        private readonly IMyBudgetRepository<IncomeType> _repository;
+        private readonly IBudgetRepository<IncomeType> _repository;
         private readonly IMapper _mapper;
 
-        public IncomeTypeService(IMyBudgetRepository<IncomeType> repository, IMapper mapper)
+        public IncomeTypeService(IBudgetRepository<IncomeType> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -52,7 +52,7 @@ namespace BLL.Services
             {
                 return false;
             }
-            item.Id = id; // !!!!! костыль !!!!! .ForMember(d => d.Nickname, (options) => options.Ignore()
+
             _mapper.Map(item, incomeTypeItem);
             _repository.Update(incomeTypeItem);
             _repository.SaveChanges();
