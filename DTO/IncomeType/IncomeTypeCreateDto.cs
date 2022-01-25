@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyBudget.Dtos
+namespace DTO.IncomeType
 {
-    public class ExpenseTypeUpdateDto
+    public class IncomeTypeCreateDto
     {
         [Required]
-        [MaxLength(30)]
         public string Name { get; set; }
-
-        [MaxLength(50)]
         public string Comment { get; set; }
+
     }
 }

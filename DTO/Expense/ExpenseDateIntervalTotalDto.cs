@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.Dtos
+namespace DTO.Expense
 {
-    public class IncomeDateIntervalTotalDto
+    public class ExpenseDateIntervalTotalDto
     {
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
         public float Total { get; set; }
-        public IEnumerable<IncomeDto> Incomes { get; set; }
+        public IEnumerable<ExpenseDto> Expenses { get; set; }
     }
 }

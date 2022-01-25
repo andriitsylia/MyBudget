@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyBudget.Dtos
+namespace DTO.ExpenseType
 {
-    public class IncomeTypeUpdateDto
+    public class ExpenseTypeUpdateDto
     {
         [Required]
         [MaxLength(30)]

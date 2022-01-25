@@ -1,13 +1,21 @@
 ﻿using AutoMapper;
-using BLL.Dtos;
-using MyBudget.Dtos;
+using DAL.Entities;
+using DTO.Expense;
+using DTO.ExpenseType;
+using DTO.Income;
+using DTO.IncomeType;
 
-namespace MyBudget.Profiles
+namespace Mapper
 {
     public class DataProfile : Profile
     {
         public DataProfile()
         {
+            CreateMap<IncomeType, IncomeTypeDto>().ReverseMap().ForMember(et => et.Id, options => options.Ignore());
+            CreateMap<Income, IncomeDto>().ReverseMap().ForMember(et => et.Id, options => options.Ignore());
+            CreateMap<ExpenseType, ExpenseTypeDto>().ReverseMap().ForMember(et => et.Id, options => options.Ignore());
+            CreateMap<Expense, ExpenseDto>().ReverseMap().ForMember(et => et.Id, options => options.Ignore());
+
             CreateMap<IncomeTypeDto, IncomeTypeReadDto>();
             CreateMap<IncomeTypeCreateDto, IncomeTypeDto>();
             CreateMap<IncomeTypeCreateDto, IncomeTypeReadDto>();

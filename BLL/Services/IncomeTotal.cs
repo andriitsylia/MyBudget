@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BLL.Dtos;
+using DTO.Income;
 
 namespace BLL.Services
 {

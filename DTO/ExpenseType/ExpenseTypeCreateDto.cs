@@ -1,8 +1,7 @@
-﻿namespace MyBudget.Dtos
+﻿namespace DTO.ExpenseType
 {
-    public class IncomeTypeReadDto
+    public class ExpenseTypeCreateDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Comment { get; set; }
     }

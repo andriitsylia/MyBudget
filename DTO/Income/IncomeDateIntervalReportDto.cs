@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BLL.Dtos
+namespace DTO.Income
 {
-    public class ExpenseDateIntervalTotalDto
+    public class IncomeDateIntervalReportDto
     {
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
         public float Total { get; set; }
-        public IEnumerable<ExpenseDto> Expenses { get; set; }
+        public IEnumerable<IncomeReadDto> Incomes { get; set; }
     }
 }

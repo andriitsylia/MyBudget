@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyBudget.Dtos
+namespace DTO.Income
 {
     public class IncomeCreateDto
     {

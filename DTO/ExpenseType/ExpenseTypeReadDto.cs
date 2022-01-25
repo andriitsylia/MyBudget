@@ -1,4 +1,4 @@
-﻿namespace MyBudget.Dtos
+﻿namespace DTO.ExpenseType
 {
     public class ExpenseTypeReadDto
     {

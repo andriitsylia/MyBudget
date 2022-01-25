@@ -18,8 +18,12 @@ using DAL.EF;
 using DAL.Repositories;
 using DAL.Entities;
 using BLL.Interfaces;
-using BLL.Dtos;
 using BLL.Services;
+using DTO.Expense;
+using DTO.ExpenseType;
+using DTO.Income;
+using DTO.IncomeType;
+using Mapper;
 
 namespace MyBudget
 {
@@ -37,8 +41,9 @@ namespace MyBudget
             services.AddDbContext<MyBudgetContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddControllers();
-            
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(new DataProfile()));
+            services.AddSingleton(mapperConfig.CreateMapper());
             
             services.AddSwaggerGen(c =>c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBudget", Version = "v1" }));
 

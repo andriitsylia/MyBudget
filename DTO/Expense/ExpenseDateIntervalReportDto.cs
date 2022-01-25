@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyBudget.Dtos
+namespace DTO.Expense
 {
-    public class IncomeDateIntervalReportDto
+    public class ExpenseDateIntervalReportDto
     {
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
         public float Total { get; set; }
-        public IEnumerable<IncomeReadDto> Incomes { get; set; }
+        public IEnumerable<ExpenseReadDto> Expenses { get; set; }
     }
 }

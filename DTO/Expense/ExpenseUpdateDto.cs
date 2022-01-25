@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyBudget.Dtos
+namespace DTO.Expense
 {
-    public class IncomeUpdateDto
+    public class ExpenseUpdateDto
     {
         [Required]
         public DateTime Date { get; set; }
@@ -15,6 +15,6 @@ namespace MyBudget.Dtos
         public string Comment { get; set; }
 
         [Required]
-        public int IncomeTypeId { get; set; }
+        public int ExpenseTypeId { get; set; }
     }
 }

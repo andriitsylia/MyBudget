@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyBudget.Dtos
+namespace DTO.Expense
 {
-    public class IncomeDateReportDto
+    public class ExpenseDateReportDto
     {
         public DateTime Date { get; set; }
         public float Total { get; set; }
-        public IEnumerable<IncomeReadDto> Incomes { get; set; }
+        public IEnumerable<ExpenseReadDto> Expenses { get; set; }
     }
 }

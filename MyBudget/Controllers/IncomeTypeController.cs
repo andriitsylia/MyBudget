@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
-using BLL.Dtos;
 using BLL.Interfaces;
-using MyBudget.Dtos;
+using DTO.IncomeType;
 
 namespace MyBudget.Controllers
 {

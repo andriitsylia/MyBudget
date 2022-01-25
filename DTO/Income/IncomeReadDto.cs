@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BLL.Dtos
+namespace DTO.Income
 {
-    public class IncomeDto
+    public class IncomeReadDto
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

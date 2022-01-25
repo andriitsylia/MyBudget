@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
-using BLL.Dtos;
 using System;
 using System.Linq;
-using MyBudget.Dtos;
 using BLL.Interfaces;
 using BLL.Services;
+using DTO.Expense;
 
 namespace MyBudget.Controllers
 {
