@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO.IncomeType;
+using System;
 
 namespace DTO.Income
 {
@@ -9,5 +10,6 @@ namespace DTO.Income
         public float Sum { get; set; }
         public string Comment { get; set; }
         public int IncomeTypeId { get; set; }
+        public IncomeTypeReadDto IncomeType { get; set; }
     }
 }

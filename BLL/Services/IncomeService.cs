@@ -33,16 +33,17 @@ namespace BLL.Services
 
         public IEnumerable<IncomeDto> GetAll()
         {
-            var incomeItems = _repository.Get();
+            var incomeItems = _repository.Get(includeProperties: "IncomeType");
 
             return _mapper.Map<IEnumerable<IncomeDto>>(incomeItems);
         }
 
         public IncomeDto GetById(int id)
         {
-            var incomeItems = _repository.GetById(id);
+            //var incomeItem = _repository.GetById(id);
+            var incomeItem = _repository.Get(filter: i => i.Id == id, includeProperties: "IncomeType").Single();
 
-            return _mapper.Map<IncomeDto>(incomeItems);
+            return _mapper.Map<IncomeDto>(incomeItem);
         }
 
         public bool Update(int id, IncomeDto item)

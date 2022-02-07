@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO.IncomeType;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace DTO.Income
         public float Sum { get; set; }
         public string Comment { get; set; }
         public int IncomeTypeId { get; set; }
+        public IncomeTypeDto IncomeType { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO.ExpenseType;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace DTO.Expense
         public float Sum { get; set; }
         public string Comment { get; set; }
         public int ExpenseTypeId { get; set; }
+        public ExpenseTypeDto ExpenseType { get; set; }
     }
 }

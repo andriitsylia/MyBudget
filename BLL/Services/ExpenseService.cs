@@ -33,16 +33,17 @@ namespace BLL.Services
 
         public IEnumerable<ExpenseDto> GetAll()
         {
-            var expenseItems = _repository.Get();
+            var expenseItems = _repository.Get(includeProperties: "ExpenseType");
 
             return _mapper.Map<IEnumerable<ExpenseDto>>(expenseItems);
         }
 
         public ExpenseDto GetById(int id)
         {
-            var expenseItems = _repository.GetById(id);
+            //var expenseItem = _repository.GetById(id);
+            var expenseItem = _repository.Get(filter: e => e.Id == id, includeProperties: "ExpenseType").Single();
 
-            return _mapper.Map<ExpenseDto>(expenseItems);
+            return _mapper.Map<ExpenseDto>(expenseItem);
         }
 
         public bool Update(int id, ExpenseDto item)
