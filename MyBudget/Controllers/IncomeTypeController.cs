@@ -66,7 +66,7 @@ namespace MyBudget.Controllers
         {
             var incomeTypeDtoItem = _mapper.Map<IncomeTypeDto>(incomeTypeUpdateDto);
 
-            if (_service.Update(id, incomeTypeDtoItem))
+            if (_service.Update(/*id, */incomeTypeDtoItem))
             {
                 return Ok();
             }

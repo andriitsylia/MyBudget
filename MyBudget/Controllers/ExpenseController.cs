@@ -115,12 +115,12 @@ namespace MyBudget.Controllers
             return CreatedAtRoute(nameof(ExpenseGetById), new { id = expenseReadDto.Id }, expenseReadDto);
         }
 
-        [HttpPut("{id}")]
-        public ActionResult Update(int id, ExpenseUpdateDto expenseUpdateDto)
+        [HttpPut/*("{id}")*/]
+        public ActionResult Update(/*int id, */ExpenseUpdateDto expenseUpdateDto)
         {
             var expenseDtoItem = _mapper.Map<ExpenseDto>(expenseUpdateDto);
 
-            if (_service.Update(id, expenseDtoItem))
+            if (_service.Update(/*id, */expenseDtoItem))
             {
                 return Ok();
             }

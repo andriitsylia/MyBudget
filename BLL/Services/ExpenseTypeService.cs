@@ -45,9 +45,9 @@ namespace BLL.Services
             return _mapper.Map<ExpenseTypeDto>(expenseTypeItem);
         }
 
-        public bool Update(int id, ExpenseTypeDto item)
+        public bool Update(/*int id, */ExpenseTypeDto item)
         {
-            var expenseTypeItem = _repository.GetById(id);
+            var expenseTypeItem = _repository.GetById(/*id*/item.Id);
 
             if (expenseTypeItem == null)
             {

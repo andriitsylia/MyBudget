@@ -45,9 +45,9 @@ namespace BLL.Services
             return _mapper.Map<IncomeTypeDto>(incomeTypeItem);
         }
 
-        public bool Update(int id, IncomeTypeDto item)
+        public bool Update(/*int id, */IncomeTypeDto item)
         {
-            var incomeTypeItem = _repository.GetById(id);
+            var incomeTypeItem = _repository.GetById(/*id*/item.Id);
 
             if (incomeTypeItem == null)
             {

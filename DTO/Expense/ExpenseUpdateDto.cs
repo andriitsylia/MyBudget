@@ -5,6 +5,8 @@ namespace DTO.Expense
 {
     public class ExpenseUpdateDto
     {
+        public int Id { get; set; }
+
         [Required]
         public DateTime Date { get; set; }
 
