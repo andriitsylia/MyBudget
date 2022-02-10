@@ -113,8 +113,8 @@ namespace MyBudget.Controllers
             return CreatedAtRoute(nameof(IncomeGetById), new { id = incomeReadDto.Id }, incomeReadDto);
         }
 
-        [HttpPut("{id}")]
-        public ActionResult Update(int id, IncomeUpdateDto incomeUpdateDto)
+        [HttpPut/*("{id}")*/]
+        public ActionResult Update(/*int id, */IncomeUpdateDto incomeUpdateDto)
         {
             var incomeDtoItem = _mapper.Map<IncomeDto>(incomeUpdateDto);
 
