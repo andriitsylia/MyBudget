@@ -79,14 +79,14 @@ namespace BLL.Services
 
         public IEnumerable<ExpenseDto> GetByDate(DateTime date)
         {
-            var expenseItems = _repository.Get(filter: i => i.Date == date);
+            var expenseItems = _repository.Get(filter: i => i.Date == date, includeProperties:"ExpenseType");
 
             return _mapper.Map<IEnumerable<ExpenseDto>>(expenseItems);
         }
 
         public IEnumerable<ExpenseDto> GetByDateInterval(DateTime beginDate, DateTime endDate)
         {
-            var expenseItems = _repository.Get(filter: i => beginDate <= i.Date && i.Date <= endDate);
+            var expenseItems = _repository.Get(filter: i => beginDate <= i.Date && i.Date <= endDate, includeProperties: "ExpenseType");
 
             return _mapper.Map<IEnumerable<ExpenseDto>>(expenseItems);
         }

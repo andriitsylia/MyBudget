@@ -77,7 +77,7 @@ namespace MyBudget.Controllers
         }
 
         [HttpGet("begindate={begindate}&enddate={enddate}")]
-        public ActionResult<IEnumerable<IncomeDateReportDto>> GetByDate(string begindate, string enddate)
+        public ActionResult<IEnumerable<IncomeDateIntervalReportDto>> GetByDate(string begindate, string enddate)
         {
             if (begindate == null || enddate == null)
             {

@@ -53,7 +53,7 @@ namespace MyBudget.Controllers
         }
 
         [HttpGet("date={date}")]
-        public ActionResult<IEnumerable<ExpenseDateIntervalReportDto>> GetByDate(string date)
+        public ActionResult<IEnumerable<ExpenseDateReportDto>> GetByDate(string date)
         {
             if (date == null)
             {
@@ -67,7 +67,7 @@ namespace MyBudget.Controllers
 
             var expenseDtoItems = _service.GetByDate(reportDate);
 
-            if (expenseDtoItems == null || !(expenseDtoItems.Any()))
+            if (expenseDtoItems == null || !expenseDtoItems.Any())
             {
                 return NotFound();
             }
@@ -93,7 +93,7 @@ namespace MyBudget.Controllers
 
             var expenseDtoItems = _service.GetByDateInterval(beginDate, endDate);
 
-            if (expenseDtoItems == null || !(expenseDtoItems.Any()))
+            if (expenseDtoItems == null || !expenseDtoItems.Any())
             {
                 return NotFound();
             }

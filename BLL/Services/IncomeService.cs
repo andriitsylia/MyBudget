@@ -79,14 +79,14 @@ namespace BLL.Services
 
         public IEnumerable<IncomeDto> GetByDate(DateTime date)
         {
-            var incomeItems = _repository.Get(filter: i => i.Date == date);
+            var incomeItems = _repository.Get(filter: i => i.Date == date, includeProperties: "IncomeType");
 
             return _mapper.Map<IEnumerable<IncomeDto>>(incomeItems);
         }
 
         public IEnumerable<IncomeDto> GetByDateInterval(DateTime beginDate, DateTime endDate)
         {
-            var incomeItems = _repository.Get(filter: i => beginDate <= i.Date && i.Date <= endDate);
+            var incomeItems = _repository.Get(filter: i => beginDate <= i.Date && i.Date <= endDate, includeProperties: "IncomeType");
 
             return _mapper.Map<IEnumerable<IncomeDto>>(incomeItems);
         }
